@@ -21,7 +21,6 @@ const Navbar = () => {
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -43,9 +42,9 @@ const Navbar = () => {
           }}
         >
           <img src={logo} alt='logo' className='w-9 h-9 object-contain' />
-          <p className='text-white text-[18px] font-bold cursor-pointer flex '>
-            Huzaif &nbsp;
-            <span className='sm:block hidden'> | Devxora</span>
+          <p className='text-white text-[18px] font-bold cursor-pointer flex'>
+            Mahmoud &nbsp;
+            <span className='sm:block hidden'>| Portfolio</span>
           </p>
         </Link>
 
