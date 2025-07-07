@@ -1,47 +1,29 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload } from "@react-three/drei";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { useLoader } from "@react-three/fiber";
+import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 
 import CanvasLoader from "../Loader";
 
 const Computers = () => {
-  let computer;
-  try {
-    computer = useLoader(GLTFLoader, "https://raw.githubusercontent.com/orgmaxwar/glb/main/anatomy_of_the_eye.glb");
-  } catch (error) {
-    console.error("Error loading GLB model:", error);
-    return null; // Return null to prevent rendering if model fails to load
-  }
-
-  useEffect(() => {
-    if (computer) {
-      console.log("GLB model loaded successfully:", computer);
-    }
-  }, [computer]);
-
-  if (!computer) {
-    return null; // Prevent rendering if model didn't load
-  }
+  const computer =  ("./desktop_pc/scene.gltf");
 
   return (
     <mesh>
-      <hemisphereLight intensity={0.5} groundColor="black" /> {/* Increased intensity for better visibility */}
+      <hemisphereLight intensity={0.15} groundColor="black" />
       <spotLight
         position={[-20, 50, 10]}
         angle={0.12}
         penumbra={1}
-        intensity={1.5} // Adjusted for eye model
+        intensity={1}
         castShadow
         shadow-mapSize={1024}
       />
       <pointLight intensity={1} />
       <primitive
         object={computer.scene}
-        scale={2} // Adjusted scale for eye model (tweak as needed)
-        position={[0, 0, 0]} // Centered position for better visibility
-        rotation={[0, 0, 0]} // Reset rotation for eye model
+        scale={0.75} // Keep scale normal for desktop
+        position={[0, -3.25, -1.5]}
+        rotation={[-0.01, -0.2, -0.1]}
       />
     </mesh>
   );
@@ -65,17 +47,17 @@ const ComputersCanvas = () => {
   }, []);
 
   return (
-    !isMobile && (
+    !isMobile && ( // Hide on mobile screens
       <Canvas
         frameloop="demand"
         shadows
         dpr={[1, 2]}
-        camera={{ position: [10, 5, 10], fov: 50 }} // Adjusted camera for eye model
+        camera={{ position: [20, 3, 5], fov: 25 }}
         gl={{ preserveDrawingBuffer: true }}
       >
         <Suspense fallback={<CanvasLoader />}>
           <OrbitControls
-            enableZoom={true} // Enabled zoom for better interaction
+            enableZoom={false}
             maxPolarAngle={Math.PI / 2}
             minPolarAngle={Math.PI / 2}
           />
@@ -86,5 +68,3 @@ const ComputersCanvas = () => {
     )
   );
 };
-
-export default ComputersCanvas;
