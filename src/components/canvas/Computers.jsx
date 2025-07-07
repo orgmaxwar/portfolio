@@ -1,11 +1,13 @@
 import React, { Suspense, useEffect, useState } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
+import { OrbitControls, Preload } from "@react-three/drei";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { useLoader } from "@react-three/fiber";
 
 import CanvasLoader from "../Loader";
 
 const Computers = () => {
-  const computer = useGLTF("./desktop_pc/scene.gltf");
+  const computer = useLoader(GLTFLoader, "https://raw.githubusercontent.com/orgmaxwar/glb/refs/heads/main/anatomy_of_the_eye.glb");
 
   return (
     <mesh>
