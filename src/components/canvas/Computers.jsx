@@ -7,25 +7,41 @@ import { useLoader } from "@react-three/fiber";
 import CanvasLoader from "../Loader";
 
 const Computers = () => {
-  const computer = useLoader(GLTFLoader, "https://raw.githubusercontent.com/orgmaxwar/glb/refs/heads/main/anatomy_of_the_eye.glb");
+  let computer;
+  try {
+    computer = useLoader(GLTFLoader, "https://raw.githubusercontent.com/orgmaxwar/glb/main/anatomy_of_the_eye.glb");
+  } catch (error) {
+    console.error("Error loading GLB model:", error);
+    return null; // Return null to prevent rendering if model fails to load
+  }
+
+  useEffect(() => {
+    if (computer) {
+      console.log("GLB model loaded successfully:", computer);
+    }
+  }, [computer]);
+
+  if (!computer) {
+    return null; // Prevent rendering if model didn't load
+  }
 
   return (
     <mesh>
-      <hemisphereLight intensity={0.15} groundColor="black" />
+      <hemisphereLight intensity={0.5} groundColor="black" /> {/* Increased intensity for better visibility */}
       <spotLight
         position={[-20, 50, 10]}
         angle={0.12}
         penumbra={1}
-        intensity={1}
+        intensity={1.5} // Adjusted for eye model
         castShadow
         shadow-mapSize={1024}
       />
       <pointLight intensity={1} />
       <primitive
         object={computer.scene}
-        scale={0.75} // Keep scale normal for desktop
-        position={[0, -3.25, -1.5]}
-        rotation={[-0.01, -0.2, -0.1]}
+        scale={2} // Adjusted scale for eye model (tweak as needed)
+        position={[0, 0, 0]} // Centered position for better visibility
+        rotation={[0, 0, 0]} // Reset rotation for eye model
       />
     </mesh>
   );
@@ -49,17 +65,17 @@ const ComputersCanvas = () => {
   }, []);
 
   return (
-    !isMobile && ( // Hide on mobile screens
+    !isMobile && (
       <Canvas
         frameloop="demand"
         shadows
         dpr={[1, 2]}
-        camera={{ position: [20, 3, 5], fov: 25 }}
+        camera={{ position: [10, 5, 10], fov: 50 }} // Adjusted camera for eye model
         gl={{ preserveDrawingBuffer: true }}
       >
         <Suspense fallback={<CanvasLoader />}>
           <OrbitControls
-            enableZoom={false}
+            enableZoom={true} // Enabled zoom for better interaction
             maxPolarAngle={Math.PI / 2}
             minPolarAngle={Math.PI / 2}
           />
