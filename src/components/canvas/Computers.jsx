@@ -5,7 +5,7 @@ import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
 import CanvasLoader from "../Loader";
 
 const Computers = () => {
-  const computer =  ("./desktop_pc/anatomy_of_the_eye.gltf");
+  const computer =  ("./desktop_pc/scene.gltf");
 
   return (
     <mesh>
